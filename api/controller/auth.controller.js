@@ -8,7 +8,7 @@ export const signup = async (req, res, next) => {
     const newUser = new User({userid, email, password : hashPassword});
     try {
         await newUser.save();
-        res.status(200).send("signup successfull...");
+        res.status(200).send("signup successful...");
     } catch(err) {
         // res.status(500).send(err.message);
         return next(err);
