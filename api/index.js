@@ -17,4 +17,10 @@ app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Error from function";
+  return res.status(statusCode).send(message);
+}) 
+
 app.listen(3000, () => console.log("Server listening at 3000"));
