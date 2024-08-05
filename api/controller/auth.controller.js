@@ -43,7 +43,6 @@ export const google = async (req, res, next) => {
     try {
         const user = await User.findOne({email : req.body.email});
         if(user) {
-            console.log("You are in google login auth api");
             const session_id = jwt.sign(
               { id: user._id },
               process.env.JWT_SECRET_KEY
