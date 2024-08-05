@@ -39,4 +39,33 @@ export const signin = async (req, res, next) => {
 }
 
 
-// export default {signup, signin };
+export const google = async (req, res, next) => {
+    try {
+        const user = await User.findOne({email : req.body.email});
+        if(user) {
+            console.log("You are in google login auth api");
+            const session_id = jwt.sign(
+              { id: user._id },
+              process.env.JWT_SECRET_KEY
+            );
+            
+            const {password : pass, ...rest} = user._doc;
+            res.status(200).cookie('access_token', session_id).json(rest);
+        } else {
+            const generatedPassword =
+                Math.random().toString(36).slice(-8) +
+                Math.random().toString(36).slice(-8);
+            const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+            const newUser = new User({userid : req.body.name, email : req.body.email, password : hashedPassword, photo : req.body.photo});
+            
+            try {
+              await newUser.save();
+              res.status(200).json("signup successful...");
+            } catch (err) {
+              return next(err);
+            }
+        }
+    } catch (error) {
+        console.log("Failed to sign in with google");
+    }
+}
