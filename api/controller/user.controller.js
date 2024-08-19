@@ -39,3 +39,15 @@ export const updateUser = async (req, res, next) => {
     return next(customError(401, error.message));
   }
 };
+
+
+export const deleteUser = async (req, res, next) => {
+  if(req.params.id != req.user.id) return next(customError(401, 'you can only delete your account.'));
+  
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    return res.clearCookie('access_control').status(200).json('User deleted successfully');
+  } catch (error) {
+    return next(customError(401, error));
+  }
+}
