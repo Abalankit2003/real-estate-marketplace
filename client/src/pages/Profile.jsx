@@ -92,19 +92,38 @@ export default function Profile() {
       method : "DELETE",
     });
 
-    
+
     const data = await res.json();
     console.log(data);
     if(data.success === false) {
       dispatch(deleteUserFailure(data.message));
       return;
     }
-    dispatch(deleteUserSuccess(data));
+    dispatch(deleteUserSuccess());
     navigate('/sign-in');
   } catch (error) {
     dispatch(deleteUserFailure(error));
   }
  } 
+
+ const handleSignOut = async (e) => {
+  dispatch(deleteUserStart());
+  try {
+    const res = await fetch(`api/user/signout/${currentUser._id}`, {
+      method: "POST",
+    });
+
+    const data = await res.json();
+    if (data.success === false) {
+      dispatch(deleteUserFailure(data.message));
+      return;
+    }
+    dispatch(deleteUserSuccess());
+    navigate("/sign-in");
+  } catch (error) {
+    dispatch(deleteUserFailure(error));
+  }
+ }
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -173,7 +192,7 @@ export default function Profile() {
         <span className="text-red-700 cursor-pointer" onClick={handleDelete}>
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer">Sign Out</span>
+        <span className="text-red-700 cursor-pointer" onClick={handleSignOut}>Sign Out</span>
       </div>
       <div>
         {error && <p className="text-red-500 mt-5">{error}</p>}

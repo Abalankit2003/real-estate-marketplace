@@ -36,7 +36,7 @@ export const updateUser = async (req, res, next) => {
     res.status(200).json(rest);
   } catch (error) {
     // console.log(error);
-    return next(customError(401, error.message));
+    return next(error);
   }
 };
 
@@ -46,8 +46,19 @@ export const deleteUser = async (req, res, next) => {
   
   try {
     await User.findByIdAndDelete(req.params.id);
-    return res.clearCookie('access_control').status(200).json('User deleted successfully');
+    return res.clearCookie('access_token').status(200).json('User deleted successfully');
   } catch (error) {
-    return next(customError(401, error));
+    return next(error);
+  }
+}
+
+
+export const signOut = (req, res, next) => {
+  if(req.user.id != req.params.id) return next(customError(401, 'you are not signed in.'));
+
+  try {
+    res.clearCookie('access_token').status(200).json('sign out successful');
+  } catch (error) {
+    return next(error);
   }
 }
