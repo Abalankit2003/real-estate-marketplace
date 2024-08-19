@@ -25,7 +25,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(signInStart());
-
+    console.log("You entered submit");
     try {
       const res = await fetch("api/auth/signin", {
         method: "POST",
