@@ -10,7 +10,7 @@ import {
 import { app } from "../firebase";
 import { deleteUserStart, deleteUserFailure, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/User/userSlice.js';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -187,6 +187,7 @@ export default function Profile() {
         >
           {loading ? "uploading..." : "update"}
         </button>
+      <Link className='text-white bg-green-700 p-3 rounded-lg uppercase text-center hover:opacity-95' to={"/create-listing"}>create listing</Link>
       </form>
       <div className="flex justify-between mt-5">
         <span className="text-red-700 cursor-pointer" onClick={handleDelete}>
