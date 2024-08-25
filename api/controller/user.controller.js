@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import User from "../models/user.model.js";
 import customError from "../utils/error.js";
+import Listing from "../models/listing.model.js";
 
 export const test = (req, res) => {
   res.json({ message: "Hi from server" });
@@ -60,5 +61,19 @@ export const signOut = (req, res, next) => {
     res.clearCookie('access_token').status(200).json('sign out successful');
   } catch (error) {
     return next(error);
+  }
+}
+
+
+export const getUserListings = async (req, res, next) => {
+  if(req.user.id === req.params.id) {
+    try {
+      const listings = await Listing.find({ userRef : req.params.id});
+      return res.status(200).json(listings);
+    } catch (error) {
+      next(customError(403, 'Server rejected your request'));
+    }
+  } else {
+    return next(customError(401, 'you can access your listings only'));
   }
 }
