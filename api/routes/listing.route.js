@@ -3,11 +3,13 @@ import verifyUser from '../utils/verifyUser.js';
 import {
   createListing,
   deleteListing,
-} from "../controller/createListing.controller.js";
+  updateUserListing,
+} from "../controller/listing.controller.js";
 
 const router = express.Router();
 
 router.post("/create", verifyUser, createListing);
 router.delete("/delete/:id", verifyUser, deleteListing);
+router.post("/update/:id", verifyUser, updateUserListing);
 
 export default router;
