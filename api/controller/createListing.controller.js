@@ -1,9 +1,11 @@
 import Listing from "../models/listing.model.js";
 
-export const createListing = (req, res, next) => {
+export const createListing = async (req, res, next) => {
     try {
-        const listed = Listing.create(req.body);
-        return res.status(200).json('successfully listed your flat');
+        console.log(req.body);
+        // return res.json("completed");
+        const listed = await Listing.create(req.body);
+        return res.status(200).json(listed);
     } catch (error) {
         next(error);
     }
