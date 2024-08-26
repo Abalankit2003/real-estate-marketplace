@@ -56,7 +56,6 @@ export const getListingData = async (req, res, next) => {
         if(!listing) {
             return next(customError(401, 'No listing found'));
         }
-        console.log(listing)
         res.status(200).json(listing);
     } catch (error) {
         next(error);
