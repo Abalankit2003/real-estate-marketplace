@@ -7,19 +7,23 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+
   const handleSearch = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('searchTerm', searchTerm);
     const searchQuery = urlParams.toString();
-    navigate(`/search/${searchQuery}`);
+    navigate(`/search?${searchQuery}`);
   };
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    if(searchTermFromUrl) setSearchTerm(searchTermFromUrl);
-  }, [location.search]);
+ useEffect(() => {
+   const urlParams = new URLSearchParams(location.search);
+   const searchTermFromUrl = urlParams.get("searchTerm");
+   console.log(searchTermFromUrl)
+   if (searchTermFromUrl) {
+     setSearchTerm(searchTermFromUrl);
+   }
+ }, [location.search]);
 
 
   return (
