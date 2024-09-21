@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node api/index",
-    "dev": "nodemon api/index"
+    "dev": "nodemon api/index",
+    "build" : "npm install && npm install --prefix client && npm build --prefix client"
   },
   "author": "",
   "license": "ISC",

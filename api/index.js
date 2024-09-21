@@ -7,6 +7,7 @@ import listing from './routes/listing.route.js';
 import cors from "cors";
 // import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import path from 'path';
 
 
 dotenv.config();
@@ -14,6 +15,8 @@ const connection = mongoose
 .connect(process.env.MONGO)
 .then(() => console.log("server connection successful"))
 .catch((err) => console.log(err));
+
+const __dirname = path.join();
 
 const app = express();
 
@@ -24,10 +27,11 @@ app.use(cookieParser());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listing);
-app.get("/",(req,res) => {
-  console.log("Hello");
-  res.json({"HI from server" : "Ankit"});
-  return res.end();
+
+app.use(express.static(path.join(__dirname, 'client/dist')));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 })
 
 app.use((err, req, res, next) => {
