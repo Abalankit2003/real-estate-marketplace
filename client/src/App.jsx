@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Header from "./components/Header";
@@ -12,16 +12,29 @@ import CreateListing from "./pages/CreateListing";
 import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
 import Search from "./pages/Search";
+import { deleteUser } from "./redux/User/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function App() {
+  const dispatch = useDispatch();
+  
+  const helper = () => {
+    const cookieExists = document.cookie
+      .split("; ")
+      .some((row) => row.startsWith("forPersist"));
+    if (!cookieExists) {
+      dispatch(deleteUser());
+    }
+  }
+
+  setInterval(helper, 1000);
+
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/sign-in" element={<SignIn />}>
-          {" "}
-        </Route>
+        <Route path="/sign-in" element={<SignIn />}></Route>
         <Route path="/sign-Out" element={<SignOut />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/sign-up" element={<SignUp />}></Route>
@@ -29,8 +42,8 @@ export default function App() {
         <Route path="/search" element={<Search />}></Route>
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/create-listing" element ={<CreateListing />}></Route>
-          <Route path="/update-listing/:id" element ={<UpdateListing />}></Route>
+          <Route path="/create-listing" element={<CreateListing />}></Route>
+          <Route path="/update-listing/:id" element={<UpdateListing />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

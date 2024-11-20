@@ -58,7 +58,7 @@ export const signOut = (req, res, next) => {
   if(req.user.id != req.params.id) return next(customError(401, 'you are not signed in.'));
 
   try {
-    res.clearCookie('access_token').status(200).json('sign out successful');
+    res.clearCookie('access_token').clearCookie('forPersist').status(200).json('sign out successful');
   } catch (error) {
     return next(error);
   }

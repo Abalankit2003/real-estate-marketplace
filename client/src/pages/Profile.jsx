@@ -38,6 +38,7 @@ export default function Profile() {
    const fileName = new Date().getTime() + file.name;
    const storageRef = ref(storage, fileName);
    const uploadTask = uploadBytesResumable(storageRef, file);
+   console.log(file);
 
    uploadTask.on(
      "state_changed",
@@ -57,10 +58,11 @@ export default function Profile() {
      }
    );
  };
-//  console.log(formData);
+ 
  const handleChange = (e) => {
   setFormData({...formData, [e.target.id] : e.target.value});
  }
+
 
  const handleSubmit = async (e) => {
   e.preventDefault();
