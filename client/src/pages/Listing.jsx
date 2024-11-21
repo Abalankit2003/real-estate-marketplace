@@ -57,9 +57,13 @@ export default function Listing() {
     fetchListing();
   }, [params.id]);
 
-  if(listing) {
-    console.log(listing.imageUrls);
-  }
+  // if(listing) {
+  //   console.log(listing.imageUrls);
+  // }
+
+  console.log(listing?.userRef);
+  console.log(currentUser?._id)
+  console.log(contact);
 
   return (
     <main>
