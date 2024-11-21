@@ -6,7 +6,13 @@ import jwt from "jsonwebtoken";
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashPassword = bcrypt.hashSync(password, 10);
-  const newUser = new User({ userid: username, email, password: hashPassword });
+  const newUser = new User({
+    userid: username,
+    email,
+    password: hashPassword,
+    photo:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+  });
   try {
     await newUser.save();
     res.status(200).json("signup successful...");
@@ -29,6 +35,8 @@ export const signin = async (req, res, next) => {
     );
 
     const { password: pass, ...rest } = validUser._doc;
+
+    console.log(rest);
     res
       .cookie("access_token", session_id, {
         maxAge: 6 * 60 * 60 * 1000,
